@@ -73,7 +73,7 @@ class CarController extends Controller
             'model' => $request->model,
             'registration_year' => $request->registration_year,
             'price' => $request->price,
-            'description' => $request['description'],
+            'description' => $request->description,
             'image' => $imagePath,
             'status' => 'active',
         ]);
@@ -114,7 +114,7 @@ class CarController extends Controller
     {
         $car = Car::findOrFail($id);
 
-        if (Auth::id() !== $car->user_id && Auth::user()->role !== 1) {
+        if (Auth::id() !== $car->user_id && Auth::user()?->role !== 1) {
             abort(403);
         }
 
