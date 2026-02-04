@@ -12,9 +12,33 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::where('status', 'active')->latest()->get();
+        $query = Car::query()->where('status', 'active');
+
+
+        if ($request->filled('make')) {
+            $query->where('make', 'like', '%' . $request->make . '%');
+        }
+
+        if ($request->filled('model')) {
+            $query->where('model', 'like', '%' . $request->model . '%');
+        }
+
+        if ($request->filled('year')) {
+            $query->where('registration_year', $request->year);
+        }
+
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        $cars = $query->latest()->paginate(9)->withQueryString();
+
         return view('cars.index', compact('cars'));
     }
 
@@ -60,9 +84,14 @@ class CarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Car $car)
     {
-        //
+        $car->load(['bids.user', 'user']);
+
+
+        $highestBid = $car->bids->max('bid_amount') ?? $car->price;
+
+        return view('cars.show', compact('car', 'highestBid'));
     }
 
     /**
