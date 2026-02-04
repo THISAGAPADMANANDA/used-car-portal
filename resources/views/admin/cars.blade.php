@@ -31,7 +31,7 @@
                                 <div class="font-bold">{{ $car->make }} {{ $car->model }}</div>
                                 <div class="text-gray-500">{{ $car->registration_year }} - ${{ number_format($car->price) }}</div>
                             </td>
-                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $car->user->name }}</td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ $car->user?->name ?? 'Unknown' }}</td>
                             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $car->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                     {{ ucfirst($car->status) }}

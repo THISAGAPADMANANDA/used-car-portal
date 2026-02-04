@@ -44,7 +44,7 @@
                             <p class="text-blue-600 font-semibold text-xl mt-2">${{ number_format($car->price, 2) }}</p>
 
                             <div class="mt-4 flex justify-between items-center">
-                                <span class="text-sm text-gray-500 italic">Seller: {{ $car->user->name }}</span>
+                                <span class="text-sm text-gray-500 italic">Seller: {{ $car->user?->name ?? 'Unknown' }}</span>
                                 <a href="{{ route('cars.show', $car->id) }}" class="bg-gray-800 text-white px-3 py-1 rounded text-sm hover:bg-black">
                                     View Details
                                 </a>

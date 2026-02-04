@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="text-sm text-gray-500 italic">
-                        Listed by: {{ $car->user->name }}
+                        Listed by: {{ $car->user?->name ?? 'Unknown' }}
                     </div>
                 </div>
             </div>
