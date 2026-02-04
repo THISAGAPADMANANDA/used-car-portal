@@ -16,6 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('cars.create')" :active="request()->routeIs('cars.create')">
+                        {{ __('Post a Car for Sale') }}
+                    </x-nav-link>
             </div>
 
             <!-- Settings Dropdown -->

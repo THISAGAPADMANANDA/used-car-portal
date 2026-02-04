@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Car;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+class CarController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $cars = Car::where('status', 'active')->latest()->get();
+        return view('cars.index', compact('cars'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('cars.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'make' => 'required|string',
+            'model' => 'required|string',
+            'registration_year' => 'required|integer|min:1900|max:' . date('Y'),
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string|min:10',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Addresses security/performance risks [cite: 90]
+        ]);
+
+        // Store image in 'public/cars' folder
+        $imagePath = $request->file('image')->store('cars', 'public');
+
+        Car::create([
+            'user_id' => Auth::id(),
+            'make' => $request->make,
+            'model' => $request->model,
+            'registration_year' => $request->registration_year,
+            'price' => $request->price,
+            'description' => $request['description'],
+            'image' => $imagePath,
+            'status' => 'active',
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Car listed successfully!');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    public function deactivate($id)
+    {
+        $car = Car::findOrFail($id);
+
+        if (Auth::id() !== $car->user_id && Auth::user()->role !== 1) {
+            abort(403);
+        }
+
+        $car->update(['status' => 'deactivated']);
+        return back()->with('success', 'Car listing deactivated.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
