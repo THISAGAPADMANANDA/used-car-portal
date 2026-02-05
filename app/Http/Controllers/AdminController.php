@@ -53,9 +53,41 @@ class AdminController extends Controller
 
     public function updateAppointmentStatus(Request $request, $id)
     {
-        $appointment = Appointment::findOrFail($id);
-        $appointment->status = $request->status; // 'approved' or 'rejected'
+        $appointment = Appointment::with('car.bids')->findOrFail($id);
+
+        $status = $request->status;
+
+        // If admin requires that the appointment user must hold the highest bid
+        // pass `require_highest_bid=1` in the request. This preserves existing
+        // behavior when the flag is absent.
+        $requireHighest = $request->boolean('require_highest_bid');
+
+        if ($status === 'approved' && $requireHighest) {
+            $car = $appointment->car;
+
+            $highestBid = $car->bids->sortByDesc('bid_amount')->first();
+
+            if (! $highestBid || $highestBid->user_id !== $appointment->user_id) {
+                $appointment->status = 'rejected';
+                $appointment->save();
+
+                return back()->with('error', 'Appointment rejected: the appointment user does not hold the highest bid.');
+            }
+        }
+
+        $appointment->status = $status;
         $appointment->save();
-        return back()->with('success', 'Appointment status updated.');
+
+        if ($status === 'approved') {
+            $car = $appointment->car;
+            if ($car) {
+                $car->status = 'sold';
+                $car->save();
+            }
+
+            return back()->with('success', 'Appointment approved and Transaction Finalized (Car marked as Sold).');
+        }
+
+        return back()->with('success', 'Appointment status updated to ' . $status . '.');
     }
 }
