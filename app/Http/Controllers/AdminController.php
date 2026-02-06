@@ -57,9 +57,6 @@ class AdminController extends Controller
 
         $status = $request->status;
 
-        // If admin requires that the appointment user must hold the highest bid
-        // pass `require_highest_bid=1` in the request. This preserves existing
-        // behavior when the flag is absent.
         $requireHighest = $request->boolean('require_highest_bid');
 
         if ($status === 'approved' && $requireHighest) {
