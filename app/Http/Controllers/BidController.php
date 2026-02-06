@@ -15,14 +15,14 @@ class BidController extends Controller
         $request->validate([
             'bid_amount' => 'required|numeric|gt:' . $highestBid,
         ], [
-            'bid_amount.gt' => 'Your bid must be higher than the current price of $' . $highestBid,
+            'bid_amount.gt' => 'Your bid must be higher than the current price of $' . number_format($highestBid, 2),
         ]);
 
         $car->bids()->create([
-            'user_id' => auth::id(),
+            'user_id' => Auth::id(),
             'bid_amount' => $request->bid_amount,
         ]);
 
-        return back()->with('success', 'Bid placed successfully!');
+        return back()->with('success', 'Bid placed successfully! You can now request an appointment.');
     }
 }

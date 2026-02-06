@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Car;
+use App\Models\Contact;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
@@ -87,4 +88,17 @@ class AdminController extends Controller
 
         return back()->with('success', 'Appointment status updated to ' . $status . '.');
     }
+
+    public function inquiries()
+{
+
+    $inquiries = Contact::latest()->get();
+    return view('admin.inquiries', compact('inquiries'));
+}
+
+public function deleteInquiry($id)
+{
+    Contact::destroy($id);
+    return back()->with('success', 'Inquiry deleted successfully.');
+}
 }

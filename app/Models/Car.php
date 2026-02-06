@@ -39,4 +39,9 @@ class Car extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function highestBid()
+{
+    return $this->hasOne(Bid::class)->latestOfMany('bid_amount');
+}
 }

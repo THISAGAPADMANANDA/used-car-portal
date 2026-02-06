@@ -30,25 +30,7 @@
                     <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
                         {{ __('Contact') }}
                     </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('cars.create')" :active="request()->routeIs('cars.create')">
-                        {{ __('Post a Car for Sale') }}
-                    </x-nav-link>
-                </div>
-                @if (auth()->user()->role == 1)
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
-                            {{ __('Manage Users') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.cars')" :active="request()->routeIs('admin.cars')">
-                            {{ __('Moderate Cars') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.appointments')" :active="request()->routeIs('admin.appointments')">
-                            {{ __('Transactions') }}
-                        </x-nav-link>
-                    </div>
-                @endif
+                </div
             </div>
 
             <!-- Settings Dropdown -->
