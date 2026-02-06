@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    protected $fillable = ['user_id', 'car_id', 'appointment_date', 'status'];
+    protected $fillable = ['user_id', 'car_id', 'bid_id', 'appointment_date', 'status'];
 
     public function user()
     {
@@ -16,5 +16,9 @@ class Appointment extends Model
     public function car()
     {
         return $this->belongsTo(Car::class);
+    }
+
+    public function bid() {
+        return $this->belongsTo(Bid::class);
     }
 }

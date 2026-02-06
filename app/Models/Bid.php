@@ -17,4 +17,8 @@ class Bid extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function appointments() {
+        return $this->hasMany(Appointment::class);
+    }
 }

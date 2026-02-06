@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('car_id')->constrained()->onDelete('cascade');
+            $table->foreignId('bid_id')->constrained()->onDelete('cascade');
             $table->datetime('appointment_date');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
