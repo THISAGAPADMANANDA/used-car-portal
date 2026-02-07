@@ -1,11 +1,16 @@
 <x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-2">About ABC CARS</h1>
+                <p class="text-slate-600">Learn more about our mission and values</p>
+            </div>
+        </div>
+    </x-slot>
     <div class="py-12 bg-slate-50">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
                 <div class="text-center mb-12">
-                    <h1 class="text-4xl font-extrabold text-slate-900 mb-4">About ABC CARS</h1>
-                    <p class="text-lg text-slate-600">Your trusted digital portal for high-quality used vehicles</p>
-                </div>
 
                 <div class="space-y-8 text-slate-700 leading-relaxed">
                     <section>

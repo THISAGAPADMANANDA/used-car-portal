@@ -15,6 +15,16 @@
                     </div>
                 @endif
 
+                @if($cars->isEmpty())
+                    <div class="text-center py-12">
+                        <div class="text-slate-500 mb-4">
+                            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M5 7v10a2 2 0 002 2h10a2 2 0 002-2V7"></path>
+                            </svg>
+                        </div>
+                        <p class="text-slate-600">No cars available for moderation.</p>
+                    </div>
+                @else
                 <table class="min-w-full leading-normal">
                     <thead>
                         <tr>
@@ -55,6 +65,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </div>

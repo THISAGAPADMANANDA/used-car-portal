@@ -6,6 +6,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                @if($inquiries->isEmpty())
+                    <div class="text-center py-12">
+                        <div class="text-slate-500 mb-4">
+                            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5-6l3 3-3 3"></path>
+                            </svg>
+                        </div>
+                        <p class="text-slate-600">No customer inquiries yet.</p>
+                    </div>
+                @else
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead>
                         <tr>
@@ -36,6 +46,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,10 +19,13 @@ class BidController extends Controller
             'bid_amount.gt' => 'Your bid must be higher than the current price of $' . number_format($highestBid, 2),
         ]);
 
-        $car->bids()->create([
+        $bid = $car->bids()->create([
             'user_id' => Auth::id(),
             'bid_amount' => $request->bid_amount,
         ]);
+
+        // Notify users about the bid
+        NotificationService::notifyBidPlaced($bid);
 
         return back()->with('success', 'Bid placed successfully! You can now request an appointment.');
     }

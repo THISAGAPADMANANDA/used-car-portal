@@ -1,46 +1,111 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-slate-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900">
+                    @if(Auth::user()->role === 1)
+                        Admin Dashboard
+                    @else
+                        Dashboard
+                    @endif
+                </h1>
+                <p class="text-slate-600 mt-2">
+                    @if(Auth::user()->role === 1)
+                        Manage users, listings, and transactions
+                    @else
+                        Welcome back! Manage your listings and bids
+                    @endif
+                </p>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {{-- Analytics Cards --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 @if(Auth::user()->role === 1)
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">Total Users</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ \App\Models\User::count() }}</div>
+                    {{-- Admin Analytics --}}
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg shadow-sm border border-blue-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-blue-600 font-semibold uppercase">Total Users</p>
+                                <p class="text-3xl font-extrabold text-blue-900 mt-2">{{ \App\Models\User::count() }}</p>
+                            </div>
+                            <div class="text-4xl text-blue-300">👥</div>
+                        </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">Total Listings</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ \App\Models\Car::count() }}</div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg shadow-sm border border-green-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-green-600 font-semibold uppercase">Active Listings</p>
+                                <p class="text-3xl font-extrabold text-green-900 mt-2">{{ \App\Models\Car::where('status', 'active')->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-green-300">🚗</div>
+                        </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">Total Appointments</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ \App\Models\Appointment::count() }}</div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg shadow-sm border border-purple-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-purple-600 font-semibold uppercase">Pending Appointments</p>
+                                <p class="text-3xl font-extrabold text-purple-900 mt-2">{{ \App\Models\Appointment::where('status', 'pending')->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-purple-300">📅</div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-6 rounded-lg shadow-sm border border-amber-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-amber-600 font-semibold uppercase">Total Sold Cars</p>
+                                <p class="text-3xl font-extrabold text-amber-900 mt-2">{{ \App\Models\Car::where('status', 'sold')->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-amber-300">✓</div>
+                        </div>
                     </div>
                 @else
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">My Listings</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ Auth::user()->cars->count() }}</div>
+                    {{-- User Analytics --}}
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg shadow-sm border border-blue-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-blue-600 font-semibold uppercase">My Listings</p>
+                                <p class="text-3xl font-extrabold text-blue-900 mt-2">{{ Auth::user()->cars->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-blue-300">📝</div>
+                        </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">My Bids</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ Auth::user()->bids->count() }}</div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg shadow-sm border border-green-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-green-600 font-semibold uppercase">Active Bids</p>
+                                <p class="text-3xl font-extrabold text-green-900 mt-2">{{ Auth::user()->bids->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-green-300">💰</div>
+                        </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="text-sm text-slate-500">Upcoming Appointments</div>
-                        <div class="text-2xl font-semibold text-slate-800">{{ Auth::user()->appointments->where('status','pending')->count() }}</div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg shadow-sm border border-purple-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-purple-600 font-semibold uppercase">Upcoming Appointments</p>
+                                <p class="text-3xl font-extrabold text-purple-900 mt-2">{{ Auth::user()->appointments->where('status','pending')->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-purple-300">📅</div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-6 rounded-lg shadow-sm border border-amber-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-amber-600 font-semibold uppercase">Cars Sold</p>
+                                <p class="text-3xl font-extrabold text-amber-900 mt-2">{{ Auth::user()->cars->where('status', 'sold')->count() }}</p>
+                            </div>
+                            <div class="text-4xl text-amber-300">✓</div>
+                        </div>
                     </div>
                 @endif
             </div>
 
             @if(Auth::user()->role !== 1)
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <!-- User Menu Sidebar -->
-                    <aside class="lg:col-span-1">
+                    {{-- Menu remains the same --}}
                         <div class="bg-white p-6 rounded-lg shadow-sm sticky top-20">
                             <h3 class="font-semibold text-lg text-slate-800 mb-4">User Menu</h3>
                             <nav class="space-y-2">

@@ -1,11 +1,16 @@
 <x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-2">Contact Us</h1>
+                <p class="text-slate-600">Have questions? We're here to help</p>
+            </div>
+        </div>
+    </x-slot>
     <div class="py-12 bg-slate-50">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
                 <div class="text-center mb-8">
-                    <h1 class="text-4xl font-extrabold text-slate-900 mb-2">Contact Us</h1>
-                    <p class="text-slate-600">Have questions about a listing? We're here to help.</p>
-                </div>
 
                 @if(session('success'))
                     <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded">

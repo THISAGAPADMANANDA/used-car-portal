@@ -12,9 +12,14 @@ use Illuminate\Notifications\Notifiable;
  * @property string $name
  * @property string $email
  * @property int $role
+ * @property bool $is_banned
  * @property string $password
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany cars()
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany bids()
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany appointments()
+ * @method \Illuminate\Database\Eloquent\Relations\HasMany notifications()
  */
 class User extends Authenticatable
 {
@@ -30,7 +35,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'is_banned',
     ];
 
     /**
@@ -69,5 +75,25 @@ class User extends Authenticatable
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function ban()
+    {
+        $this->update(['is_banned' => true]);
+    }
+
+    public function unban()
+    {
+        $this->update(['is_banned' => false]);
+    }
+
+    public function isBanned()
+    {
+        return $this->is_banned;
     }
 }

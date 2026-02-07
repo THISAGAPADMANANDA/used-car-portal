@@ -1,8 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-slate-800 leading-tight">
-            {{ __('Used Car Marketplace') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-2">Used Car Marketplace</h1>
+                <p class="text-slate-600">Find your perfect vehicle from our curated selection</p>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">

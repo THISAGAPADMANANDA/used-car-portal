@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <x-slot name="header">
+        <h1 class="text-3xl font-extrabold text-slate-900">Register</h1>
+        <p class="text-slate-600 mt-2">Create a new account to get started</p>
+    </x-slot>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

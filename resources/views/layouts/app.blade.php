@@ -12,13 +12,39 @@
     <body class="font-sans antialiased bg-slate-50">
         <div class="flex h-screen overflow-hidden">
 
-            @if(request()->routeIs('dashboard*') || request()->routeIs('admin.*') || request()->routeIs('profile.*') || request()->routeIs('cars.create'))
+            @if(request()->routeIs('dashboard*') || request()->routeIs('admin.*') || request()->routeIs('profile.*') || request()->routeIs('cars.create') || request()->routeIs('user.*') || request()->routeIs('notifications.*'))
             <aside class="w-64 bg-gray-900 text-white hidden md:flex flex-col flex-shrink-0">
                 <div class="p-6 text-xl font-bold border-b border-gray-800 text-blue-400">
-                    ABC-CARS Panel
+                    Menu
                 </div>
                 <nav class="flex-1 mt-4 overflow-y-auto">
                     <div class="px-4 py-2 text-xs uppercase text-slate-400 font-semibold tracking-wider">User Menu</div>
+                    <a href="{{ route('dashboard') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('dashboard') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        Dashboard
+                    </a>
+                    <a href="{{ route('user.listings') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('user.listings') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        My Listings
+                    </a>
+                    <a href="{{ route('user.bids') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('user.bids') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        My Bids
+                    </a>
+                    <a href="{{ route('user.appointments') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('user.appointments') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        My Appointments
+                    </a>
+                    <a href="{{ route('user.bought-cars') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('user.bought-cars') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        Bought Cars
+                    </a>
+                    <a href="{{ route('user.sold-cars') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('user.sold-cars') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        Sold Cars
+                    </a>
+                    <a href="{{ route('notifications.index') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('notifications.*') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
+                        Notifications
+                        @if(Auth::check() && Auth::user()->notifications()->where('read', false)->count() > 0)
+                            <span class="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                {{ Auth::user()->notifications()->where('read', false)->count() }}
+                            </span>
+                        @endif
+                    </a>
                     <a href="{{ route('cars.create') }}" class="flex items-center px-6 py-3 hover:bg-gray-800 {{ request()->routeIs('cars.create') ? 'bg-gray-800 border-l-4 border-blue-500' : '' }}">
                         Post a Car for Sale
                     </a>

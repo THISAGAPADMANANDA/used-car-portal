@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <x-slot name="header">
+        <h1 class="text-3xl font-extrabold text-slate-900">Login</h1>
+        <p class="text-slate-600 mt-2">Sign in to your account to continue</p>
+    </x-slot>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
