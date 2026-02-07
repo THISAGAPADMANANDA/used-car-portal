@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <x-slot name="header">
+        <h1 class="text-3xl font-extrabold text-slate-900">Set New Password</h1>
+        <p class="text-slate-600 mt-2">Complete the password reset process</p>
+    </x-slot>
+
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 

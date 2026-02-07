@@ -122,6 +122,18 @@ class CarController extends Controller
         return back()->with('success', 'Car listing deactivated.');
     }
 
+    public function reactivate($id)
+    {
+        $car = Car::findOrFail($id);
+
+        if (Auth::id() !== $car->user_id && Auth::user()?->role !== 1) {
+            abort(403);
+        }
+
+        $car->update(['status' => 'active']);
+        return back()->with('success', 'Car listing reactivated.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
