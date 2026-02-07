@@ -33,6 +33,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // User Pages
+    Route::get('/my-listings', function () {
+        return view('user.listings');
+    })->name('user.listings');
+    Route::get('/my-bids', function () {
+        return view('user.bids');
+    })->name('user.bids');
+    Route::get('/my-appointments', function () {
+        return view('user.appointments');
+    })->name('user.appointments');
+
     // Profile Management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

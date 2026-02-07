@@ -1,53 +1,91 @@
-<x-guest-layout>
-    <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-100 my-10">
-        <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Contact Us</h2>
-        <p class="text-center text-gray-500 mb-6 text-sm">Have questions about a listing? We're here to help.</p>
+<x-app-layout>
+    <div class="py-12 bg-slate-50">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-4xl font-extrabold text-slate-900 mb-2">Contact Us</h1>
+                    <p class="text-slate-600">Have questions about a listing? We're here to help.</p>
+                </div>
 
-        @if(session('success'))
-            <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700">
-                {{ session('success') }}
+                @if(session('success'))
+                    <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded">
+                        <strong>Success!</strong> {{ session('success') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                    @csrf
+
+                    {{-- Name Field --}}
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Your Name</label>
+                        <input type="text"
+                               id="name"
+                               name="name"
+                               value="{{ old('name') }}"
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent {{ $errors->has('name') ? 'border-red-500' : 'border-slate-300' }}"
+                               placeholder="John Doe"
+                               required>
+                        @error('name')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Email Field --}}
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent {{ $errors->has('email') ? 'border-red-500' : 'border-slate-300' }}"
+                               placeholder="you@example.com"
+                               required>
+                        @error('email')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Subject Field --}}
+                    <div>
+                        <label for="subject" class="block text-sm font-semibold text-slate-700 mb-2">Subject</label>
+                        <input type="text"
+                               id="subject"
+                               name="subject"
+                               value="{{ old('subject') }}"
+                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent {{ $errors->has('subject') ? 'border-red-500' : 'border-slate-300' }}"
+                               placeholder="Subject of your inquiry"
+                               required>
+                        @error('subject')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Message Field --}}
+                    <div>
+                        <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+                        <textarea id="message"
+                                  name="message"
+                                  rows="5"
+                                  class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent {{ $errors->has('message') ? 'border-red-500' : 'border-slate-300' }}"
+                                  placeholder="Tell us what you'd like to know..."
+                                  required>{{ old('message') }}</textarea>
+                        @error('message')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Send Message
+                    </button>
+                </form>
+
+                <div class="mt-8 pt-8 border-t border-slate-200">
+                    <p class="text-center text-slate-600 text-sm">
+                        You can also reach us at <strong>support@abc-cars.com</strong> or call <strong>1-800-ABC-CARS</strong>.
+                    </p>
+                </div>
             </div>
-        @endif
-
-        <form action="{{ route('contact.send') }}" method="POST">
-            @csrf
-
-            {{-- Name Field --}}
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Name</label>
-                <input type="text" name="name" value="{{ old('name') }}"
-                       class="mt-1 block w-full rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('name') ? 'border-red-500' : 'border-gray-300' }}"
-                       placeholder="Your Name" required>
-                @error('name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Email Field --}}
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Email Address</label>
-                <input type="email" name="email" value="{{ old('email') }}"
-                       class="mt-1 block w-full rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('email') ? 'border-red-500' : 'border-gray-300' }}"
-                       placeholder="you@example.com" required>
-                @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Message Field --}}
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700">Message</label>
-                <textarea name="message" rows="4"
-                          class="mt-1 block w-full rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 {{ $errors->has('message') ? 'border-red-500' : 'border-gray-300' }}"
-                          placeholder="How can we help you?" required>{{ old('message') }}</textarea>
-                @error('message')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700 transition duration-200 shadow-sm">
-                Send Message
-            </button>
-        </form>
+        </div>
     </div>
-</x-guest-layout>
+</x-app-layout>
